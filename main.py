@@ -7,7 +7,7 @@ from ui import draw_board, WIDTH, HEIGHT, SQUARESIZE, RADIUS, BLUE, YELLOW, BLAC
 # --- Pygame Setup ---
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("connect-py")
+pygame.display.set_caption("Connect π")
 myfont = pygame.font.SysFont("monospace", 75)
 
 # --- Game Initialization ---
