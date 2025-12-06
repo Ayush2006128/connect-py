@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+import sound # Import sound module
 from board import Board
 from ui import draw_board, WIDTH, HEIGHT, SQUARESIZE, RADIUS, BLUE, YELLOW, BLACK # Import from ui.py
 
@@ -16,6 +17,7 @@ game_over = False
 turn = 0 # 0 for Player 1 (Blue), 1 for Player 2 (Yellow)
 
 draw_board(screen, board_obj) # Initial board draw
+sound.play_start_game_sound() # Play start game sound
 
 while True: # Main game loop, runs continuously
     for event in pygame.event.get():
@@ -28,6 +30,7 @@ while True: # Main game loop, runs continuously
             game_over = False
             turn = 0
             draw_board(screen, board_obj)
+            sound.play_start_game_sound() # Play start game sound on restart
             pygame.display.update()
             continue # Skip rest of loop for this event
 
@@ -52,16 +55,20 @@ while True: # Main game loop, runs continuously
                     
                     if turn == 0:
                         board_obj.drop_piece(row, col, 1)
+                        sound.play_drop_sound() # Play drop sound
                         if board_obj.winning_move(1):
                             label = myfont.render("Player 1 wins!!", 1, BLUE)
                             screen.blit(label, (40,10))
                             game_over = True
+                            sound.play_win_sound() # Play win sound
                     else:               
                         board_obj.drop_piece(row, col, 2)
+                        sound.play_drop_sound() # Play drop sound
                         if board_obj.winning_move(2):
                             label = myfont.render("Player 2 wins!!", 1, YELLOW)
                             screen.blit(label, (40,10))
                             game_over = True
+                            sound.play_win_sound() # Play win sound
                     
                     board_obj.print_board()
                     draw_board(screen, board_obj)
@@ -69,6 +76,7 @@ while True: # Main game loop, runs continuously
                     turn += 1
                     turn = turn % 2
                 else:
+                    sound.play_invalid_move_sound() # Play invalid move sound
                     print("Invalid move. Try again.") # Optional: add a message for invalid moves
                 
                 if game_over:
