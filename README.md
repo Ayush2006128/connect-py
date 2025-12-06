@@ -48,3 +48,18 @@ python main.py
 - `main.py`: The entry point. Handles the main game loop, input processing, and game coordination.
 - `board.py`: Contains the `Board` class, managing the game state (grid), move validation, and win algorithms.
 - `ui.py`: Handles all Pygame rendering, including the board, pieces, and text.
+
+## Tests
+Unit tests have been implemented for the core game logic, primarily focusing on the `Board` class.
+To run the tests, navigate to the project root directory and execute:
+
+```sh
+PYTHONPATH=. .venv/bin/pytest
+```
+
+## Citations
+- **BigBlueTerm Nerd Font**: Used for its retro aesthetic.
+
+## License
+This project is licensed under the GPL 3 License. See the `LICENSE` file for details.
+
