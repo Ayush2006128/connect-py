@@ -1,3 +1,5 @@
+# TODO: Add check for tie condition.
+
 import numpy as np
 
 ROW_COUNT = 6

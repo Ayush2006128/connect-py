@@ -1,9 +1,17 @@
+import os
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+
 import pygame
 import sys
 import math
 import sound # Import sound module
 from board import Board
 from ui import draw_board, WIDTH, HEIGHT, SQUARESIZE, RADIUS, BLUE, YELLOW, BLACK # Import from ui.py
+
+# --- Remove logs ---
+sys.stdin = os.devnull
+sys.stderr = os.devnull
 
 # --- Pygame Setup ---
 pygame.init()
@@ -72,8 +80,7 @@ while True: # Main game loop, runs continuously
                             screen.blit(label, (40,10))
                             game_over = True
                             sound.play_win_sound() # Play win sound
-                    
-                    board_obj.print_board()
+
                     draw_board(screen, board_obj)
 
                     turn += 1
