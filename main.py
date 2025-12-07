@@ -80,6 +80,12 @@ while True: # Main game loop, runs continuously
                             screen.blit(label, (40,10))
                             game_over = True
                             sound.play_win_sound() # Play win sound
+                    
+                    if not game_over and board_obj.is_tie():
+                        label = myfont.render("It's a Tie!!", 1, (255, 0, 0))
+                        screen.blit(label, (40,10))
+                        game_over = True
+                        sound.play_tie_sound()
 
                     draw_board(screen, board_obj)
 

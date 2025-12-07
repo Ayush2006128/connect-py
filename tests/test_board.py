@@ -129,3 +129,19 @@ def test_winning_move_negative_diagonal():
     
     board.drop_piece(0, 3, piece)
     assert board.winning_move(piece)
+
+def test_is_tie():
+    board = Board()
+    # Fill the board completely
+    # Alternating pieces to avoid a win (though we are just testing the full condition here)
+    # Actually, simply filling it with non-zeros is enough for a "full check" if we assume
+    # the game loop handles the "no win" logic order.
+    # But let's try to fill it somewhat realistically or just fill it up.
+    
+    assert not board.is_tie()
+    
+    for r in range(ROW_COUNT):
+        for c in range(COLUMN_COUNT):
+            board.drop_piece(r, c, 1)
+            
+    assert board.is_tie()

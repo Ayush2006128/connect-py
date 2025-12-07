@@ -106,6 +106,14 @@ def play_start_game_sound():
         play_tone(freq, dur, volume=0.3)
         pygame.time.wait(int(dur * 1000) + 10)
 
+def play_tie_sound():
+    """Plays a sound for a tie game (womp womp)."""
+    # A sad, descending trombone-like effect
+    melody = [(196, 0.3), (185, 0.3), (174, 0.3), (164, 0.6)] # G3, F#3, F3, E3
+    for freq, dur in melody:
+        play_tone(freq, dur, volume=0.4)
+        pygame.time.wait(int(dur * 1000) + 10)
+
 
 # Example usage (for testing purposes, won't run when imported)
 if __name__ == '__main__':
@@ -123,6 +131,10 @@ if __name__ == '__main__':
 
     print("Playing win sound...")
     play_win_sound()
+    pygame.time.wait(1000)
+
+    print("Playing tie sound...")
+    play_tie_sound()
     pygame.time.wait(1000)
     
     print("Done playing sounds.")

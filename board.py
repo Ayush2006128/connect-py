@@ -1,9 +1,4 @@
-# TODO: Add check for tie condition.
-
 import numpy as np
-
-ROW_COUNT = 6
-COLUMN_COUNT = 7
 
 ROW_COUNT = 6
 COLUMN_COUNT = 7
@@ -25,6 +20,10 @@ class Board:
 
     def print_board(self):
         print(np.flip(self.board, 0))
+
+    def is_tie(self):
+        # Check if board is full
+        return not np.any(self.board == 0)
 
     def winning_move(self, piece):
         # Check horizontal locations for win
