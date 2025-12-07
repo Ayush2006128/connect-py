@@ -9,6 +9,16 @@ import sound # Import sound module
 from board import Board
 from ui import draw_board, WIDTH, HEIGHT, SQUARESIZE, RADIUS, BLUE, YELLOW, BLACK # Import from ui.py
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 # --- Remove logs ---
 sys.stdin = os.devnull
 sys.stderr = os.devnull
@@ -17,10 +27,10 @@ sys.stderr = os.devnull
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Connect π")
-icon = pygame.image.load("assets/connect-py-logo.png")
+icon = pygame.image.load(resource_path("assets/connect-py-logo.png"))
 pygame.display.set_icon(icon)
 
-myfont = pygame.font.Font("assets/font.ttf", 65)
+myfont = pygame.font.Font(resource_path("assets/font.ttf"), 65)
 
 # --- Game Initialization ---
 board_obj = Board()
