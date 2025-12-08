@@ -2,15 +2,27 @@ import os
 
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 
-import pygame
-import sys
 import math
-import sound # Import sound module
+import sys
+
+import pygame
+
+import sound  # Import sound module
 from board import Board
-from ui import draw_board, WIDTH, HEIGHT, SQUARESIZE, RADIUS, BLUE, YELLOW, BLACK # Import from ui.py
+from ui import (  # Import from ui.py
+    BLACK,
+    BLUE,
+    HEIGHT,
+    RADIUS,
+    SQUARESIZE,
+    WIDTH,
+    YELLOW,
+    draw_board,
+)
+
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+    """Get absolute path to resource, works for dev and for PyInstaller"""
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
@@ -19,6 +31,7 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
+
 # --- Remove logs ---
 sys.stdin = os.devnull
 sys.stderr = os.devnull
@@ -26,7 +39,7 @@ sys.stderr = os.devnull
 # --- Pygame Setup ---
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Connect π")
+pygame.display.set_caption("Connect Py")
 icon = pygame.image.load(resource_path("assets/connect-py-logo.png"))
 pygame.display.set_icon(icon)
 
@@ -35,65 +48,69 @@ myfont = pygame.font.Font(resource_path("assets/font.ttf"), 65)
 # --- Game Initialization ---
 board_obj = Board()
 game_over = False
-turn = 0 # 0 for Player 1 (Blue), 1 for Player 2 (Yellow)
+turn = 0  # 0 for Player 1 (Blue), 1 for Player 2 (Yellow)
 
-draw_board(screen, board_obj) # Initial board draw
-sound.play_start_game_sound() # Play start game sound
+draw_board(screen, board_obj)  # Initial board draw
+sound.play_start_game_sound()  # Play start game sound
 
-while True: # Main game loop, runs continuously
+while True:  # Main game loop, runs continuously
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN and game_over:
             # If game is over, a click restarts it
-            board_obj = Board() # Reset board
+            board_obj = Board()  # Reset board
             game_over = False
             turn = 0
             draw_board(screen, board_obj)
-            sound.play_start_game_sound() # Play start game sound on restart
+            sound.play_start_game_sound()  # Play start game sound on restart
             pygame.display.update()
-            continue # Skip rest of loop for this event
+            continue  # Skip rest of loop for this event
 
-        if not game_over: # Only process game moves if game is not over
+        if not game_over:  # Only process game moves if game is not over
             if event.type == pygame.MOUSEMOTION:
-                pygame.draw.rect(screen, BLACK, (0,0, WIDTH, SQUARESIZE))
+                pygame.draw.rect(screen, BLACK, (0, 0, WIDTH, SQUARESIZE))
                 posx = event.pos[0]
                 if turn == 0:
-                    pygame.draw.circle(screen, BLUE, (posx, int(SQUARESIZE/2)), RADIUS)
-                else: 
-                    pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
+                    pygame.draw.circle(
+                        screen, BLUE, (posx, int(SQUARESIZE / 2)), RADIUS
+                    )
+                else:
+                    pygame.draw.circle(
+                        screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS
+                    )
                 pygame.display.update()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pygame.draw.rect(screen, BLACK, (0,0, WIDTH, SQUARESIZE))
-                
+                pygame.draw.rect(screen, BLACK, (0, 0, WIDTH, SQUARESIZE))
+
                 posx = event.pos[0]
-                col = int(math.floor(posx/SQUARESIZE))
+                col = int(math.floor(posx / SQUARESIZE))
 
                 if board_obj.is_valid_location(col):
                     row = board_obj.get_next_open_row(col)
-                    
+
                     if turn == 0:
                         board_obj.drop_piece(row, col, 1)
-                        sound.play_drop_sound() # Play drop sound
+                        sound.play_drop_sound()  # Play drop sound
                         if board_obj.winning_move(1):
                             label = myfont.render("Player 1 wins!!", 1, BLUE)
-                            screen.blit(label, (40,10))
+                            screen.blit(label, (40, 10))
                             game_over = True
-                            sound.play_win_sound() # Play win sound
-                    else:               
+                            sound.play_win_sound()  # Play win sound
+                    else:
                         board_obj.drop_piece(row, col, 2)
-                        sound.play_drop_sound() # Play drop sound
+                        sound.play_drop_sound()  # Play drop sound
                         if board_obj.winning_move(2):
                             label = myfont.render("Player 2 wins!!", 1, YELLOW)
-                            screen.blit(label, (40,10))
+                            screen.blit(label, (40, 10))
                             game_over = True
-                            sound.play_win_sound() # Play win sound
-                    
+                            sound.play_win_sound()  # Play win sound
+
                     if not game_over and board_obj.is_tie():
                         label = myfont.render("It's a Tie!!", 1, (255, 0, 0))
-                        screen.blit(label, (40,10))
+                        screen.blit(label, (40, 10))
                         game_over = True
                         sound.play_tie_sound()
 
@@ -102,9 +119,8 @@ while True: # Main game loop, runs continuously
                     turn += 1
                     turn = turn % 2
                 else:
-                    sound.play_invalid_move_sound() # Play invalid move sound
-                    print("Invalid move. Try again.") # Optional: add a message for invalid moves
-                
+                    sound.play_invalid_move_sound()  # Play invalid move sound
+
                 if game_over:
                     # After game is over, keep the winning message on screen
                     pygame.display.update()
