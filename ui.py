@@ -88,8 +88,8 @@ def draw_menu(screen, font_path):
     screen.blit(option1_text, option1_rect)
 
     # Player icons for option 1
-    pygame.draw.circle(screen, BLUE, (WIDTH // 2 - 180, 280), 20)
-    pygame.draw.circle(screen, YELLOW, (WIDTH // 2 + 180, 280), 20)
+    pygame.draw.circle(screen, BLUE, (WIDTH // 2 - 200, 280), 20)
+    pygame.draw.circle(screen, YELLOW, (WIDTH // 2 + 200, 280), 20)
 
     # Option 2: vs AI (Pyoneer)
     option2_text = option_font.render("[2] vs Pyoneer", True, ORANGE)
@@ -97,13 +97,13 @@ def draw_menu(screen, font_path):
     screen.blit(option2_text, option2_rect)
 
     # AI icon for option 2
-    pygame.draw.circle(screen, BLUE, (WIDTH // 2 - 180, 380), 20)
-    pygame.draw.circle(screen, ORANGE, (WIDTH // 2 + 180, 380), 20)
+    pygame.draw.circle(screen, BLUE, (WIDTH // 2 - 210, 380), 20)
+    pygame.draw.circle(screen, ORANGE, (WIDTH // 2 + 210, 380), 20)
     # Robot face on AI circle
-    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 165, 377), 4)  # Left eye
-    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 175, 377), 4)  # Right eye
+    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 199, 370), 4)  # Left eye
+    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 209, 370), 4)  # Right eye
     pygame.draw.line(
-        screen, BLACK, (WIDTH // 2 + 173, 386), (WIDTH // 2 + 187, 386), 2
+        screen, BLACK, (WIDTH // 2 + 203, 386), (WIDTH // 2 + 217, 386), 2
     )  # Mouth
 
     # Subtitle
