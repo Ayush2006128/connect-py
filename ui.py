@@ -1,5 +1,7 @@
 import pygame
 
+from utils import resource_path
+
 # --- Colors ---
 GREEN = (0, 128, 0)  # Shade of green for the board
 BLUE = (0, 0, 255)  # Player 1 chip color
@@ -19,6 +21,18 @@ COLUMN_COUNT = 7
 
 WIDTH = COLUMN_COUNT * SQUARESIZE
 HEIGHT = (ROW_COUNT + 1) * SQUARESIZE  # +1 for the piece drop area
+
+# --- Icons ---
+_smiley = None
+
+
+def get_smiley():
+    """Lazy-load the smiley icon (requires pygame.display to be initialized)."""
+    global _smiley
+    if _smiley is None:
+        _smiley = pygame.image.load(resource_path("assets/smiley.png")).convert_alpha()
+        _smiley = pygame.transform.scale(_smiley, (50, 50))
+    return _smiley
 
 
 # --- Functions ---
@@ -76,11 +90,17 @@ def draw_menu(screen, font_path):
 
     # Title
     title_text = title_font.render("CONNECT PY", True, GREEN)
-    title_rect = title_text.get_rect(center=(WIDTH // 2, 105))
+    title_rect = title_text.get_rect(center=(WIDTH // 2, 65))
     screen.blit(title_text, title_rect)
 
     # Decorative line
-    pygame.draw.line(screen, GREEN, (100, 160), (WIDTH - 100, 160), 3)
+    pygame.draw.line(
+        screen,
+        GREEN,
+        (100, title_rect.height + 30),
+        (WIDTH - 100, title_rect.height + 30),
+        3,
+    )
 
     # Option 1: 2 Player
     option1_text = option_font.render("[1] vs Player", True, BLUE)
@@ -98,13 +118,9 @@ def draw_menu(screen, font_path):
 
     # AI icon for option 2
     pygame.draw.circle(screen, BLUE, (WIDTH // 2 - 210, 380), 20)
-    pygame.draw.circle(screen, ORANGE, (WIDTH // 2 + 210, 380), 20)
-    # Robot face on AI circle
-    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 199, 370), 4)  # Left eye
-    pygame.draw.circle(screen, BLACK, (WIDTH // 2 + 209, 370), 4)  # Right eye
-    pygame.draw.line(
-        screen, BLACK, (WIDTH // 2 + 203, 386), (WIDTH // 2 + 217, 386), 2
-    )  # Mouth
+    smiley = get_smiley()
+    smiley_rect = smiley.get_rect(center=(WIDTH // 2 + 210, 380))
+    screen.blit(smiley, smiley_rect)
 
     # Subtitle
     subtitle_text = small_font.render("Click or press 1/2 to select", True, GRAY)
